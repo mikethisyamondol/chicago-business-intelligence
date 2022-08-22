@@ -1355,7 +1355,7 @@ func GetCCVIDetails(db *sql.DB) {
 			continue
 		}
 
-		sql := `INSERT INTO ccvi_detauls (
+		sql := `INSERT INTO ccvi_details (
 			"geography_type",
 			"community_area_or_zip_code",
 			"community_name",
