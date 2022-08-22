@@ -244,8 +244,8 @@ func main() {
 		go GetBuildingPermits(db)
 		go GetTaxiTrips(db)
 
-		// go GetCovidDetails(db)
-		// go GetCCVIDetails(db)
+		go GetCovidDetails(db)
+		go GetCCVIDetails(db)
 
 		http.HandleFunc("/", handler)
 
