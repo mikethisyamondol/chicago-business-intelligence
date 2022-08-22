@@ -310,18 +310,18 @@ func GetTaxiTrips(db *sql.DB) {
 	}
 
 	create_table := `CREATE TABLE IF NOT EXISTS "taxi_trips" (
-						"id"   SERIAL , 
-						"trip_id" VARCHAR(255) UNIQUE, 
-						"trip_start_timestamp" TIMESTAMP WITH TIME ZONE, 
-						"trip_end_timestamp" TIMESTAMP WITH TIME ZONE, 
-						"pickup_centroid_latitude" DOUBLE PRECISION, 
-						"pickup_centroid_longitude" DOUBLE PRECISION, 
-						"dropoff_centroid_latitude" DOUBLE PRECISION, 
-						"dropoff_centroid_longitude" DOUBLE PRECISION, 
-						"pickup_zip_code" VARCHAR(255), 
-						"dropoff_zip_code" VARCHAR(255), 
-						PRIMARY KEY ("id") 
-					);`
+                        "id"   SERIAL , 
+                        "trip_id" VARCHAR(255) UNIQUE, 
+                        "trip_start_timestamp" TIMESTAMP WITH TIME ZONE, 
+                        "trip_end_timestamp" TIMESTAMP WITH TIME ZONE, 
+                        "pickup_centroid_latitude" DOUBLE PRECISION, 
+                        "pickup_centroid_longitude" DOUBLE PRECISION, 
+                        "dropoff_centroid_latitude" DOUBLE PRECISION, 
+                        "dropoff_centroid_longitude" DOUBLE PRECISION, 
+                        "pickup_zip_code" VARCHAR(255), 
+                        "dropoff_zip_code" VARCHAR(255), 
+                        PRIMARY KEY ("id") 
+                    );`
 
 	_, _err := db.Exec(create_table)
 	if _err != nil {
@@ -472,7 +472,7 @@ func GetTaxiTrips(db *sql.DB) {
 		dropoff_zip_code := dropoff_address.PostalCode
 
 		sql := `INSERT INTO taxi_trips ("trip_id", "trip_start_timestamp", "trip_end_timestamp", "pickup_centroid_latitude", "pickup_centroid_longitude", "dropoff_centroid_latitude", "dropoff_centroid_longitude", "pickup_zip_code", 
-			"dropoff_zip_code") values($1, $2, $3, $4, $5, $6, $7, $8, $9)`
+            "dropoff_zip_code") values($1, $2, $3, $4, $5, $6, $7, $8, $9)`
 
 		_, err = db.Exec(
 			sql,
@@ -1304,7 +1304,7 @@ func GetCCVIDetails(db *sql.DB) {
 
 	fmt.Println("Created Table for ccvi_details")
 
-	var url = "https://data.cityofchicago.org/resource/xhc6-88s9.json?$select=geography_type,community_area_or_zip,community_name,ccvi_score,ccvi_category&$limit=500"
+	var url = "https://data.cityofchicago.org/resource/xhc6-88s9.json?$select=geography_type,community_area_or_zip,community_area_name,ccvi_score,ccvi_category&$limit=500"
 
 	tr := &http.Transport{
 		MaxIdleConns:       10,
