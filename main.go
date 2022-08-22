@@ -295,6 +295,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	fmt.Fprintf(w, "CBI data collection microservices' goroutines have started for %s!\n", name)
+	fmt.Fprintf(w, os.Getenv("GEOCODER_KEY"))
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
