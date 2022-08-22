@@ -1155,7 +1155,7 @@ func GetCovidDetails(db *sql.DB) {
 
 	fmt.Println("Created Table for covid_details")
 
-	var url = "https://data.cityofchicago.org/resource/yhhz-zm2v.json?$select=zip_code,week_number,week_start,week_end,cases_weekly,cases_cumulative,case_rate_weekly,case_rate_cumulative,percent_tested_positive_weekly,percent_tested_positive_cumulative,population"
+	var url = "https://data.cityofchicago.org/resource/yhhz-zm2v.json?$select=zip_code,week_number,week_start,week_end,cases_weekly,cases_cumulative,case_rate_weekly,case_rate_cumulative,percent_tested_positive_weekly,percent_tested_positive_cumulative,population$limit=500"
 
 	tr := &http.Transport{
 		MaxIdleConns:       10,
@@ -1304,7 +1304,7 @@ func GetCCVIDetails(db *sql.DB) {
 
 	fmt.Println("Created Table for ccvi_details")
 
-	var url = "https://data.cityofchicago.org/resource/xhc6-88s9.json?$select=geography_type,community_area_or_zip,community_name,ccvi_score,ccvi_category"
+	var url = "https://data.cityofchicago.org/resource/xhc6-88s9.json?$select=geography_type,community_area_or_zip,community_name,ccvi_score,ccvi_category$limit=500"
 
 	tr := &http.Transport{
 		MaxIdleConns:       10,
