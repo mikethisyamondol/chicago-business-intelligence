@@ -2,23 +2,6 @@ package main
 
 ////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////
-//
-// 		Chicago Business Intelligence for Strategic Planning Project
-//
-//		Author: Atef Bader, PhD
-//
-//
-//		The provided source code is NOT the complete implementation for this project
-//		The provided source code is for the individual use for students registered in this course
-//      	The provided source code can NOT be redistributed
-//		The provided source code needs your Google Account geocoder.ApiKey for geocoder.GeocodingReverse
-//
-//
-////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////
-
-////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////
 // The following program will collect data for Taxi Trips, Building permists, and
 // Unemployment data from the City of Chicago data portal
 // we are using SODA REST API to collect the JSON records
@@ -276,8 +259,8 @@ func main() {
 		go GetBuildingPermits(db)
 		go GetTaxiTrips(db)
 
-		// go GetCovidDetails(db)
-		// go GetCCVIDetails(db)
+		go GetCovidDetails(db)
+		go GetCCVIDetails(db)
 
 		http.HandleFunc("/", handler)
 
@@ -1154,7 +1137,127 @@ func GetBuildingPermits(db *sql.DB) {
 
 func GetCovidDetails(db *sql.DB) {
 
-	fmt.Println("ADD-YOUR-CODE-HERE - To Implement GetCovidDetails")
+	// fmt.Println("ADD-YOUR-CODE-HERE - To Implement GetCovidDetails")
+	fmt.Println("GetCovidDetails: Collecting Covid Detail Data")
+
+	drop_table := `drop table if exists covid_details`
+	_, err := db.Exec(drop_table)
+	if err != nil {
+		panic(err)
+	}
+
+	create_table := `CREATE TABLE IF NOT EXISTS "covid_details" (
+		"id" SERIAL,
+		zip_code VARCHAR(255),
+		week_number INT,
+		week_start TIMESTAMP,
+		week_end TIMESTAMP,
+		cases_weekly INT,
+		cases_cumulative INT,
+		case_rate_weekly DOUBLE PRECISION,
+		case_rate_cumulative DOUBLE PRECISION,
+		percent_tested_positive_weekly DOUBLE PRECISION,
+		percent_tested_positive_cumulative DOUBLE PRECISION,
+		population INT,
+		PRIMARY KEY ("id")
+	);`
+
+	_, _err := db.Exec(create_table)
+	if _err != nil {
+		panic(_err)
+	}
+
+	fmt.Println("Created Table for covid_details")
+
+	var url = "https://data.cityofchicago.org/resource/yhhz-zm2v.json?$select=zip_code,week_number,week_start,week_end,cases_weekly,cases_cumulative,case_rate_weekly,case_rate_cumulative,percent_tested_positive_weekly,percent_tested_positive_cumulative,population&$limit=500"
+
+	tr := &http.Transport{
+		MaxIdleConns:       10,
+		IdleConnTimeout:    300 * time.Second,
+		DisableCompression: true,
+	}
+
+	client := &http.Client{Transport: tr}
+
+	res, err := client.Get(url)
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Println("Received data from SODA REST API for Covid Details")
+
+	body, _ := ioutil.ReadAll(res.Body)
+	var covid_detail_list CovidJsonRecords
+	json.Unmarshal(body, &covid_detail_list)
+
+	s := fmt.Sprintf("\n\n Covid Details number of SODA records received = %d\n\n", len(covid_detail_list))
+	io.WriteString(os.Stdout, s)
+
+	for i := 0; i < len(covid_detail_list); i++ {
+
+		zip_code := covid_detail_list[i].Zip_code
+		if zip_code == "" {
+			continue
+		}
+
+		week_number := covid_detail_list[i].Week_number
+		if week_number == "" {
+			continue
+		}
+
+		week_start := covid_detail_list[i].Week_start
+
+		week_end := covid_detail_list[i].Week_end
+
+		cases_weekly := covid_detail_list[i].Cases_weekly
+
+		cases_cumulative := covid_detail_list[i].Cases_cumulative
+
+		case_rate_weekly := covid_detail_list[i].Case_rate_weekly
+
+		case_rate_cumulative := covid_detail_list[i].Case_rate_cumulative
+
+		percent_tested_positive_weekly := covid_detail_list[i].Percent_tested_positive_weekly
+
+		percent_tested_positive_cumulative := covid_detail_list[i].Percent_tested_positive_cumulative
+
+		population := covid_detail_list[i].Population
+
+		sql := `INSERT INTO covid_details (
+			"zip_code",
+			"week_number",
+			"week_start",
+			"week_end",
+			"cases_weekly",
+			"cases_cumulative",
+			"case_rate_weekly",
+			"case_rate_cumulative",
+			"percent_tested_positive_weekly",
+			"percent_tested_positive_cumulative",
+			"population" )
+			values($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)`
+
+		_, err = db.Exec(
+			sql,
+			zip_code,
+			week_number,
+			week_start,
+			week_end,
+			cases_weekly,
+			cases_cumulative,
+			case_rate_weekly,
+			case_rate_cumulative,
+			percent_tested_positive_weekly,
+			percent_tested_positive_cumulative,
+			population)
+
+		if err != nil {
+			panic(err)
+		}
+
+	}
+
+	fmt.Println("Completed Inserting Rows into the covid_details Table")
 
 }
 
@@ -1189,6 +1292,105 @@ func GetCovidDetails(db *sql.DB) {
 ////////////////////////////////////////////////////////////////////////////////////
 func GetCCVIDetails(db *sql.DB) {
 
-	fmt.Println("ADD-YOUR-CODE-HERE - To Implement GetCCVIDetails")
+	// fmt.Println("ADD-YOUR-CODE-HERE - To Implement GetCCVIDetails")
+	fmt.Println("GetCCVIDetails: Collecting CCVI Detail Data")
+
+	drop_table := `drop table if exists ccvi_details`
+	_, err := db.Exec(drop_table)
+	if err != nil {
+		panic(err)
+	}
+
+	create_table := `CREATE TABLE IF NOT EXISTS "ccvi_details" (
+		"id" SERIAL,
+		geography_type VARCHAR(255),
+		community_area_or_zip_code VARCHAR(255),
+		community_name VARCHAR(255),
+		ccvi_score DOUBLE PRECISION,
+		ccvi_category VARCHAR(255),
+		PRIMARY KEY ("id")
+	);`
+
+	_, _err := db.Exec(create_table)
+	if _err != nil {
+		panic(_err)
+	}
+
+	fmt.Println("Created Table for ccvi_details")
+
+	var url = "https://data.cityofchicago.org/resource/xhc6-88s9.json?$select=geography_type,community_area_or_zip,community_area_name,ccvi_score,ccvi_category&$limit=500"
+
+	tr := &http.Transport{
+		MaxIdleConns:       10,
+		IdleConnTimeout:    300 * time.Second,
+		DisableCompression: true,
+	}
+
+	client := &http.Client{Transport: tr}
+
+	res, err := client.Get(url)
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Println("Received data from SODA REST API for CCVI Details")
+
+	body, _ := ioutil.ReadAll(res.Body)
+	var ccvi_detail_list CCVIJsonRecords
+	json.Unmarshal(body, &ccvi_detail_list)
+
+	s := fmt.Sprintf("\n\n CCVI Details number of SODA records received = %d\n\n", len(ccvi_detail_list))
+	io.WriteString(os.Stdout, s)
+
+	for i := 0; i < len(ccvi_detail_list); i++ {
+
+		geography_type := ccvi_detail_list[i].Geography_type
+		if geography_type == "" {
+			continue
+		}
+
+		community_area_or_zip_code := ccvi_detail_list[i].Community_area_or_ZIP_code
+		if community_area_or_zip_code == "" {
+			continue
+		}
+
+		community_name := ccvi_detail_list[i].Community_name
+		if community_name == "" {
+			continue
+		}
+
+		ccvi_score := ccvi_detail_list[i].CCVI_score
+		if ccvi_score == "" {
+			continue
+		}
+
+		ccvi_category := ccvi_detail_list[i].CCVI_category
+		if ccvi_category == "" {
+			continue
+		}
+
+		sql := `INSERT INTO ccvi_details (
+			"geography_type",
+			"community_area_or_zip_code",
+			"community_name",
+			"ccvi_score",
+			"ccvi_category")
+			values($1, $2, $3, $4, $5)`
+
+		_, err = db.Exec(
+			sql,
+			geography_type,
+			community_area_or_zip_code,
+			community_name,
+			ccvi_score,
+			ccvi_category)
+
+		if err != nil {
+			panic(err)
+		}
+
+	}
+
+	fmt.Println("Completed Inserting Rows into the ccvi_details Table")
 
 }
