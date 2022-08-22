@@ -46,6 +46,16 @@ This purpose of this project is to build a microservice in Golang to pull in dat
 - Go to the IAM & Admin --> IAM page and make sure all the required roled are enabled for the project. Make sure your cloudbuild.gserviceaccount.com principal has roles: "Cloud Build Service Account", "Cloud Run Service Agent", and "Owner".
 ![image5.PNG](images/image5.PNG)
 
+### Secrets
+
+- Instead of exposing passwords or API keys in the code, you can utilize secrets within GCP with GCP Secret Manager. Once you navigate to Secret Manager, click "Create Secret". You can either upload a file, or paste your keys into the box labeled "Secret value".
+![image8.PNG](images/image8.PNG)
+
+- Once the secret is created within Secret Manager, navigate to Cloud Run and click on the microservice environment where you want to use the secret, and click on "Edit & Deploy New Revision" at the top of the page.
+![image9.PNG](images/image9.PNG)
+
+- Under "Secrets", click on "Reference a Secret" and select the secret you want to use. Select a reference method, specify the version, and click "Done", then click "Deploy"
+![image10.PNG](images/image10.PNG)
 
 <br>
 <br>
