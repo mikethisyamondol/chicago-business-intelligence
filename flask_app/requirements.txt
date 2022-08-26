@@ -13,4 +13,4 @@ flask_restful
 # fastapi
 # uvicorn
 # prophet
-# psycopg2
+psycopg2

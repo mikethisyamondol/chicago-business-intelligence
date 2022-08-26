@@ -1,4 +1,4 @@
-FROM python:3.8.8-slim-buster
+FROM python:3.10.6-alpine3.16
 
 # Working Directory
 WORKDIR /app
@@ -7,7 +7,7 @@ WORKDIR /app
 COPY . main.py /app/
 
 # Install packages from requirements.txt
-# RUN apt install postgresql-dev gcc python3-dev musl-dev
+RUN apk add postgresql-dev gcc python3-dev musl-dev
 RUN pip install --no-cache-dir -r requirements.txt
 
 EXPOSE 8080
