@@ -1,0 +1,16 @@
+pylint
+pytest
+black
+numpy
+pandas
+requests
+flask
+flask_restful
+gunicorn
+db_dtypes
+transformers
+sentencepiece
+fastapi
+uvicorn
+prophet
+psycopg2
