@@ -7,7 +7,7 @@ WORKDIR /app
 COPY . main.py /app/
 
 # Install packages from requirements.txt
-RUN apt install postgresql-dev gcc python3-dev musl-dev
+# RUN apt install postgresql-dev gcc python3-dev musl-dev
 RUN pip install --no-cache-dir -r requirements.txt
 
 EXPOSE 8080
