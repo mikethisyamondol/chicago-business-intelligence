@@ -1207,22 +1207,49 @@ func GetCovidDetails(db *sql.DB) {
 		}
 
 		week_start := covid_detail_list[i].Week_start
+		if week_start == "" {
+			continue
+		}
 
 		week_end := covid_detail_list[i].Week_end
+		if week_end == "" {
+			continue
+		}
 
 		cases_weekly := covid_detail_list[i].Cases_weekly
+		if cases_weekly == "" {
+			continue
+		}
 
 		cases_cumulative := covid_detail_list[i].Cases_cumulative
+		if cases_cumulative == "" {
+			continue
+		}
 
 		case_rate_weekly := covid_detail_list[i].Case_rate_weekly
+		if case_rate_weekly == "" {
+			continue
+		}
 
 		case_rate_cumulative := covid_detail_list[i].Case_rate_cumulative
+		if case_rate_cumulative == "" {
+			continue
+		}
 
 		percent_tested_positive_weekly := covid_detail_list[i].Percent_tested_positive_weekly
+		if percent_tested_positive_weekly == "" {
+			continue
+		}
 
 		percent_tested_positive_cumulative := covid_detail_list[i].Percent_tested_positive_cumulative
+		if percent_tested_positive_cumulative == "" {
+			continue
+		}
 
 		population := covid_detail_list[i].Population
+		if population == "" {
+			continue
+		}
 
 		sql := `INSERT INTO covid_details (
 			"zip_code",
