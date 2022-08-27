@@ -1,11 +1,11 @@
-pylint
-pytest
-black
-numpy
+# pylint
+# pytest
+# black
+# numpy
 pandas
-requests
+# requests
 flask
-flask_restful
+# flask_restful
 # gunicorn
 # db_dtypes
 # transformers
