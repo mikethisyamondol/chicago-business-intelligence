@@ -40,10 +40,10 @@ def preds():
     
     df = pd.read_sql(query, conn)
     
-    slice_for_zip_code = df.loc[df['dropoff_zip_code'] == str(inp)]
-    df_daily_ride_count = slice_for_zip_code.groupby(['trip_date'])['trip_id'].count().reset_index(name ='total_trips')
-    df_weekly_ride_count = slice_for_zip_code.groupby(['trip_week'])['trip_id'].count().reset_index(name ='total_trips')
-    df_monthly_ride_count = slice_for_zip_code.groupby(['trip_month'])['trip_id'].count().reset_index(name ='total_trips')
+    # slice_for_zip_code = df.loc[df['dropoff_zip_code'] == str(inp)]
+    # df_daily_ride_count = slice_for_zip_code.groupby(['trip_date'])['trip_id'].count().reset_index(name ='total_trips')
+    # df_weekly_ride_count = slice_for_zip_code.groupby(['trip_week'])['trip_id'].count().reset_index(name ='total_trips')
+    # df_monthly_ride_count = slice_for_zip_code.groupby(['trip_month'])['trip_id'].count().reset_index(name ='total_trips')
 
     df_trip_count = df.groupby(['trip_month'])['trip_id'].count().reset_index(name ='Total_Rides_Per_Month')
     
@@ -55,17 +55,22 @@ def preds():
     future_dates = model.make_future_dataframe(periods = 50, freq='W')
     forecast = model.predict(future_dates)
 
-    model.plot(forecast);
+    # model.plot(forecast);
 
-    return df_daily_ride_count
+
+    model.plot_components(forecast).savefig('static/IMG/predict_image.png')
 
 
 app = Flask(__name__)
 
+img = os.path.join('static', 'IMG')
+app.config['UPLOAD_FOLDER'] = img
 
 @app.route('/')
 def main():
-    return preds()
+    preds()
+    predict_img = os.path.join(app.config['UPLOAD_FOLDER'], 'predict_image.png')
+    return render_template("index.html", user_image=predict_img)
 
 
 if __name__ == '__main__':
