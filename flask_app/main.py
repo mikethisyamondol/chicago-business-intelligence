@@ -13,7 +13,8 @@ app = Flask(__name__)
 
 @app.route('/')
 def main():
-    inp = input('Please Provide a Zip Code in Chicago.')
+    # inp = input('Please Provide a Zip Code in Chicago.')
+    inp = '60604'
     conn = psycopg2.connect(
         dbname='chicago_business_intelligence',
         host='35.223.192.84',
@@ -45,10 +46,7 @@ def main():
     df_weekly_ride_count = slice_for_zip_code.groupby(['trip_week'])['trip_id'].count().reset_index(name ='total_trips')
     df_monthly_ride_count = slice_for_zip_code.groupby(['trip_month'])['trip_id'].count().reset_index(name ='total_trips')
 
-    
-
-
-    return df_daily_ride_count.head()
+    return 'hello'
 
 
 if __name__ == '__main__':
