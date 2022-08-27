@@ -28,6 +28,7 @@ steps:
   timeout: 1600s
 - name: "gcr.io/cloud-builders/docker"
   args: ['push', 'gcr.io/dev-354521/flask-app']
+  timeout: 1600s
 
 - name: "gcr.io/google.com/cloudsdktool/cloud-sdk"
   entrypoint: gcloud
