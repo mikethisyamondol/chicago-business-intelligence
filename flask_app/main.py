@@ -10,12 +10,9 @@ from prophet.plot import plot_cross_validation_metric
 from prophet.plot import plot_plotly, plot_components_plotly
 
 
-app = Flask(__name__)
-
-@app.route('/')
-def main():
-    # inp = input('Please Provide a Zip Code in Chicago.')
-    inp = '60604'
+def preds():
+     # inp = input('Please Provide a Zip Code in Chicago.')
+    # inp = '60604'
     conn = psycopg2.connect(
         dbname='chicago_business_intelligence',
         host=os.environ.get('DB_HOST'),
@@ -48,20 +45,27 @@ def main():
     df_weekly_ride_count = slice_for_zip_code.groupby(['trip_week'])['trip_id'].count().reset_index(name ='total_trips')
     df_monthly_ride_count = slice_for_zip_code.groupby(['trip_month'])['trip_id'].count().reset_index(name ='total_trips')
 
-    # df_end_trip_count = df.groupby(['trip_end_timestamp_clean'])['trip_id'].count().reset_index(name ='Total_Number_of_orders_per_month')
-    # df_end_trip_count
-
-    # df_end_trip_count = df_end_trip_count.rename(columns = {'trip_end_timestamp_clean': 'ds',
-    #                                 'Total_Number_of_orders_per_month': 'y'})
+    df_trip_count = df.groupby(['trip_month'])['trip_id'].count().reset_index(name ='Total_Rides_Per_Month')
     
-    # model = Prophet(yearly_seasonality=True, daily_seasonality=True)
-    # model.fit(df_end_trip_count) 
-    # future_dates = model.make_future_dataframe(periods = 50, freq='W')
-    # forecast = model.predict(future_dates)
-
-    # model.plot(forecast);
+    df_trip_count = df_trip_count.rename(columns = {'trip_month': 'ds',
+                                    'Total_Rides_Per_Month': 'y'})
     
+    model = Prophet(yearly_seasonality=True, daily_seasonality=True)
+    model.fit(df_trip_count) 
+    future_dates = model.make_future_dataframe(periods = 50, freq='W')
+    forecast = model.predict(future_dates)
+
+    model.plot(forecast);
+
     return df_daily_ride_count
+
+
+app = Flask(__name__)
+
+
+@app.route('/')
+def main():
+    return preds()
 
 
 if __name__ == '__main__':
