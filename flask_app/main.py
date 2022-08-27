@@ -46,10 +46,10 @@ def main():
     df_weekly_ride_count = slice_for_zip_code.groupby(['trip_week'])['trip_id'].count().reset_index(name ='total_trips')
     df_monthly_ride_count = slice_for_zip_code.groupby(['trip_month'])['trip_id'].count().reset_index(name ='total_trips')
 
+    
 
 
-
-    return df_daily_ride_count.head()
+    return 'Hey, we have Flask in a Docker container!'
 
 
 if __name__ == '__main__':
