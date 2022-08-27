@@ -14,37 +14,37 @@ app = Flask(__name__)
 @app.route('/')
 def main():
     # inp = input('Please Provide a Zip Code in Chicago.')
-    inp = '60604'
-    conn = psycopg2.connect(
-        dbname='chicago_business_intelligence',
-        host='35.223.192.84',
-        port=5432,
-        user='postgres',
-         password='root'
-    )
+    # inp = '60604'
+    # conn = psycopg2.connect(
+    #     dbname='chicago_business_intelligence',
+    #     host='35.223.192.84',
+    #     port=5432,
+    #     user='postgres',
+    #      password='root'
+    # )
 
-    cur = conn.cursor()
-    conn.autocommit=True
+    # cur = conn.cursor()
+    # conn.autocommit=True
 
-    query = '''
-        select
-        id,
-        trip_id,
-        date(trip_start_timestamp) as trip_date,
-        date(date_trunc('week', trip_start_timestamp) + '6 days'::interval) as trip_week,
-        to_char(trip_start_timestamp, 'YYYY-MM') as trip_month,
-        pickup_zip_code,
-        dropoff_zip_code
-        from public.taxi_trips
-        where dropoff_zip_code is not null
-        and dropoff_zip_code != ''
-        '''
-    df = pd.read_sql(query, conn)
+    # query = '''
+    #     select
+    #     id,
+    #     trip_id,
+    #     date(trip_start_timestamp) as trip_date,
+    #     date(date_trunc('week', trip_start_timestamp) + '6 days'::interval) as trip_week,
+    #     to_char(trip_start_timestamp, 'YYYY-MM') as trip_month,
+    #     pickup_zip_code,
+    #     dropoff_zip_code
+    #     from public.taxi_trips
+    #     where dropoff_zip_code is not null
+    #     and dropoff_zip_code != ''
+    #     '''
+    # df = pd.read_sql(query, conn)
 
-    slice_for_zip_code = df.loc[df['dropoff_zip_code'] == str(inp)]
-    df_daily_ride_count = slice_for_zip_code.groupby(['trip_date'])['trip_id'].count().reset_index(name ='total_trips')
-    df_weekly_ride_count = slice_for_zip_code.groupby(['trip_week'])['trip_id'].count().reset_index(name ='total_trips')
-    df_monthly_ride_count = slice_for_zip_code.groupby(['trip_month'])['trip_id'].count().reset_index(name ='total_trips')
+    # slice_for_zip_code = df.loc[df['dropoff_zip_code'] == str(inp)]
+    # df_daily_ride_count = slice_for_zip_code.groupby(['trip_date'])['trip_id'].count().reset_index(name ='total_trips')
+    # df_weekly_ride_count = slice_for_zip_code.groupby(['trip_week'])['trip_id'].count().reset_index(name ='total_trips')
+    # df_monthly_ride_count = slice_for_zip_code.groupby(['trip_month'])['trip_id'].count().reset_index(name ='total_trips')
 
     return 'hello'
 
