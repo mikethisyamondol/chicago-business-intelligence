@@ -48,20 +48,20 @@ def main():
     df_weekly_ride_count = slice_for_zip_code.groupby(['trip_week'])['trip_id'].count().reset_index(name ='total_trips')
     df_monthly_ride_count = slice_for_zip_code.groupby(['trip_month'])['trip_id'].count().reset_index(name ='total_trips')
 
-    df_end_trip_count = df.groupby(['trip_end_timestamp_clean'])['trip_id'].count().reset_index(name ='Total_Number_of_orders_per_month')
-    df_end_trip_count
+    # df_end_trip_count = df.groupby(['trip_end_timestamp_clean'])['trip_id'].count().reset_index(name ='Total_Number_of_orders_per_month')
+    # df_end_trip_count
 
-    df_end_trip_count = df_end_trip_count.rename(columns = {'trip_end_timestamp_clean': 'ds',
-                                    'Total_Number_of_orders_per_month': 'y'})
+    # df_end_trip_count = df_end_trip_count.rename(columns = {'trip_end_timestamp_clean': 'ds',
+    #                                 'Total_Number_of_orders_per_month': 'y'})
     
-    model = Prophet(yearly_seasonality=True, daily_seasonality=True)
-    model.fit(df_end_trip_count) 
-    future_dates = model.make_future_dataframe(periods = 50, freq='W')
-    forecast = model.predict(future_dates)
+    # model = Prophet(yearly_seasonality=True, daily_seasonality=True)
+    # model.fit(df_end_trip_count) 
+    # future_dates = model.make_future_dataframe(periods = 50, freq='W')
+    # forecast = model.predict(future_dates)
 
-    model.plot(forecast);
+    # model.plot(forecast);
     
-    return 
+    return df_daily_ride_count
 
 
 if __name__ == '__main__':
