@@ -17,7 +17,7 @@ def main():
     inp = '60604'
     conn = psycopg2.connect(
         dbname='chicago_business_intelligence',
-        host='35.223.192.84',
+        host=DB_HOST,
         port=5432,
         user='postgres',
          password='root'
