@@ -1,7 +1,6 @@
 from flask import Flask
 import psycopg2
-# import pandas as pd 
-
+import pandas as pd
 import prophet
 from prophet import Prophet
 from prophet.diagnostics import cross_validation
