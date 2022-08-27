@@ -31,6 +31,7 @@ steps:
 - name: "gcr.io/google.com/cloudsdktool/cloud-sdk"
   entrypoint: gcloud
   args: ['run', 'deploy','flask-app', '--image','gcr.io/dev-354521/flask-app', '--region','us-central1', '--add-cloudsql-instances', 'dev-354521:us-central1:mypostgres','--platform','managed', '--port','8080', '--allow-unauthenticated']
+  timeout: '1600s'
 
 images:
 - gcr.io/dev-354521/go-microservice
