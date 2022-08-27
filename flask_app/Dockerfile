@@ -9,6 +9,8 @@ COPY . main.py /app/
 
 # Install packages from requirements.txt
 # RUN apk add postgresql-dev gcc python3-dev musl-dev
+RUN apt-get update \
+    && apt-get install -y postgresql-server-dev-all gcc python3-dev musl-dev
 RUN apt-get update && apt-get install -y \
     curl \
     git \
