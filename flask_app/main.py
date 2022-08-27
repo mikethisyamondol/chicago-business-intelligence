@@ -12,7 +12,7 @@ from prophet.plot import plot_plotly, plot_components_plotly
 
 def preds():
      # inp = input('Please Provide a Zip Code in Chicago.')
-    # inp = '60604'
+    inp = '60604'
     conn = psycopg2.connect(
         dbname='chicago_business_intelligence',
         host=os.environ.get('DB_HOST'),
