@@ -9,6 +9,11 @@ COPY . main.py /app/
 
 # Install packages from requirements.txt
 # RUN apk add postgresql-dev gcc python3-dev musl-dev
+RUN apt-get update && apt-get install -y \
+    curl \
+    git \
+    python3.4 \
+    python3-pip
 RUN pip install --no-cache-dir -r requirements.txt
 
 EXPOSE 8080
