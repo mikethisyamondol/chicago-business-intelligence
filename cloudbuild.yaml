@@ -25,6 +25,7 @@ steps:
 # Front-End App
 - name: "gcr.io/cloud-builders/docker"
   args: ['build', '-t', 'gcr.io/dev-354521/flask-app','./flask_app/']
+  timeout: '1600s'
 - name: "gcr.io/cloud-builders/docker"
   args: ['push', 'gcr.io/dev-354521/flask-app']
 
