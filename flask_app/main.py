@@ -49,7 +49,7 @@ def main():
     
 
 
-    return 'Hey, we have Flask in a Docker container!'
+    return df_daily_ride_count.head()
 
 
 if __name__ == '__main__':
