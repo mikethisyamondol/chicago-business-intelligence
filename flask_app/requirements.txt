@@ -1,9 +1,9 @@
-# pylint
-# pytest
-# black
-# numpy
-# pandas
-# requests
+pylint
+pytest
+black
+numpy
+pandas
+requests
 flask
 flask_restful
 # gunicorn
@@ -12,5 +12,5 @@ flask_restful
 # sentencepiece
 # fastapi
 # uvicorn
-# prophet
+prophet
 psycopg2
