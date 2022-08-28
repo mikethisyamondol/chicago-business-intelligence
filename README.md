@@ -75,3 +75,23 @@ This purpose of this project is to build a microservice in Golang to pull in dat
 Once your microservices have been built and deployed, as seen in Cloud Run, click on the generated URL to access and run the microservices.
 
 ![image7.PNG](images/image7.PNG)
+
+## Front End
+
+Create a Dockerfile specifically for your front end application if you're using something different than Golang. In this example, Flask is being utilized and therefore a Docker image is needed to build a Python environment.
+
+![image11.PNG](images/image11.PNG)
+
+Within Google Cloud Shell, run this command: "gcloud artifacts repositories create [ADD NAME HERE] --repository-format=docker \ --location=us-central1 --description="Docker repository"
+
+Add in steps to the existing cloudbuild.yaml file to pull in the image, build, and deploy your front-end application
+
+![image12.PNG](images/image12.PNG)
+
+Once the front-end instance is running on Cloud Run, you need to configure access between the front end server and the postgres server built above. Go to Serverless VPC access and create a connector. 
+
+![image13.PNG](images/image13.PNG)
+
+Then within the front-end Cloud Run instance configure the connection to the VPC connector.
+
+![image14.PNG](images/image14.PNG)
