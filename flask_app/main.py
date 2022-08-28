@@ -57,12 +57,12 @@ def preds():
     # model.plot(forecast);
 
 
-    model.plot_components(forecast).savefig('./predict_image.png')
+    model.plot_components(forecast).savefig('static/IMG/predict_image.png')
 
 
 app = Flask(__name__)
 
-img = './'
+img = 'static/IMG/'
 app.config['UPLOAD_FOLDER'] = img
 
 @app.route('/')
