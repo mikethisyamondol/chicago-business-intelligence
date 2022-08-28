@@ -1,4 +1,5 @@
 from flask import Flask
+from flask import render_template
 import psycopg2
 import pandas as pd
 import prophet
@@ -11,8 +12,6 @@ from prophet.plot import plot_plotly, plot_components_plotly
 
 
 def preds():
-     # inp = input('Please Provide a Zip Code in Chicago.')
-    inp = '60604'
     conn = psycopg2.connect(
         dbname='chicago_business_intelligence',
         host=os.environ.get('DB_HOST'),
@@ -68,10 +67,10 @@ app.config['UPLOAD_FOLDER'] = img
 
 @app.route('/')
 def main():
-    # preds()
-    # predict_img = os.path.join(app.config['UPLOAD_FOLDER'], 'predict_image.png')
-    # return render_template("index.html", user_image=predict_img)
-    return 'hello world'
+    preds()
+    predict_img = os.path.join(app.config['UPLOAD_FOLDER'], 'predict_image.png')
+    return render_template("index.html", user_image=predict_img)
+    # return 'hello world'
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=8080)
