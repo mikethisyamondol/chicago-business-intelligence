@@ -68,10 +68,10 @@ app.config['UPLOAD_FOLDER'] = img
 
 @app.route('/')
 def main():
-    preds()
-    predict_img = os.path.join(app.config['UPLOAD_FOLDER'], 'predict_image.png')
-    return render_template("index.html", user_image=predict_img)
-
+    # preds()
+    # predict_img = os.path.join(app.config['UPLOAD_FOLDER'], 'predict_image.png')
+    # return render_template("index.html", user_image=predict_img)
+    return 'hello world'
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=8080)
