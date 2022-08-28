@@ -69,7 +69,7 @@ app.config['UPLOAD_FOLDER'] = img
 def main():
     preds()
     predict_img = os.path.join(app.config['UPLOAD_FOLDER'], 'predict_image.png')
-    return render_template("index.html", user_image=predict_img)
+    return render_template("./index.html", user_image=predict_img)
     # return 'hello world'
 
 if __name__ == '__main__':
