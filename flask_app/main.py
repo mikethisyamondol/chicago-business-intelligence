@@ -63,7 +63,7 @@ def preds():
 
 app = Flask(__name__)
 
-img = os.path('./')
+img = './'
 app.config['UPLOAD_FOLDER'] = img
 
 @app.route('/')
